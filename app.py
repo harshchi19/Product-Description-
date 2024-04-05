@@ -13,9 +13,6 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_
 from tensorflow.keras.preprocessing import image as keras_image
 import tensorflow as tf
 from PIL import Image as PILImage
-
-# Remaining code remains unchanged...
-
 class TextGenerator:
     def __init__(self, model_name="gpt2"):
         self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
