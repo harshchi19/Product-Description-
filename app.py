@@ -1,7 +1,7 @@
 import streamlit as st
+
 try:
-    from transformers.modeling_gpt2 import GPT2LMHeadModel
-    from transformers.tokenization_gpt2 import GPT2Tokenizer
+    from transformers import GPT2LMHeadModel, GPT2Tokenizer
 except ImportError as e:
     st.error(f"Error: {e}. Please ensure that the transformers library is installed. You can try installing it with 'pip install transformers==4.11.3'.")
     import sys
@@ -13,6 +13,9 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_
 from tensorflow.keras.preprocessing import image as keras_image
 import tensorflow as tf
 from PIL import Image as PILImage
+
+# Remaining code remains unchanged...
+
 class TextGenerator:
     def __init__(self, model_name="gpt2"):
         self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
