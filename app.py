@@ -8,11 +8,8 @@ except ImportError as e:
     sys.exit(1)
 
 import torch
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
-from tensorflow.keras.preprocessing import image as keras_image
-import tensorflow as tf
 from PIL import Image as PILImage
+
 class TextGenerator:
     def __init__(self, model_name="gpt2"):
         self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
@@ -28,7 +25,7 @@ class TextGenerator:
 class ImageClassifier:
     def __init__(self):
         # Use a pre-trained MobileNetV2 model for image classification
-        self.model = MobileNetV2(weights="imagenet")
+        self.model = torch.hub.load('pytorch/vision:v0.10.0', 'mobilenet_v2', pretrained=True)
 
     def classify_image(self, uploaded_image):
         # Open the uploaded image with PIL
@@ -38,12 +35,17 @@ class ImageClassifier:
         image = image.resize((224, 224))
 
         # Convert the image to a NumPy array
-        img_array = keras_image.img_to_array(image)
-        img_array = preprocess_input(img_array)
-        img_array = tf.expand_dims(img_array, 0)
-        predictions = self.model.predict(img_array)
-        decoded_predictions = decode_predictions(predictions, top=1)[0]
-        class_label = decoded_predictions[0][1]
+        img_tensor = torch.tensor(np.array(image))
+
+        # Perform normalization
+        img_tensor = img_tensor.permute(2, 0, 1).unsqueeze(0).float() / 255.0
+
+        # Classify the image
+        with torch.no_grad():
+            outputs = self.model(img_tensor)
+
+        _, preds = torch.max(outputs, 1)
+        class_label = preds.item()
         return class_label
 
     def process_input(self, uploaded_image, writing_style, length, paragraphs):
@@ -56,7 +58,7 @@ class ImageClassifier:
         generated_description = ""
 
         for _ in range(paragraphs):
-            prompt = f"An image of a {predicted_class}. This image features {predicted_class} with a {writing_style} writing style. "
+            prompt = f"An image of class {predicted_class}. This image features class {predicted_class} with a {writing_style} writing style. "
             prompt += f"The {writing_style} description is {words_per_paragraph} words long, and contains {paragraphs} paragraphs."
             generated_paragraph = text_generator.generate_text(prompt, max_length=words_per_paragraph)
             generated_description += generated_paragraph + "\n\n"
