@@ -1,5 +1,11 @@
 import streamlit as st
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+try:
+    from transformers import GPT2LMHeadModel, GPT2Tokenizer
+except ImportError as e:
+    st.error(f"Error: {e}. Please ensure that the transformers library is installed. You can try installing it with 'pip install transformers==4.11.3'.")
+    import sys
+    sys.exit(1)
+
 import torch
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
