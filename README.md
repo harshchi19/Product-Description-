@@ -1,6 +1,6 @@
 # Product-Description App
 
-Welcome to the Image and Text Processing App! This application allows you to upload an image, classify it using a pre-trained MobileNetV2 model, and generate descriptive text based on the image's class and user-selected parameters.
+Welcome to the Product-Description App! This application allows you to upload an image, classify it using a pre-trained MobileNetV2 model, and generate descriptive text based on the image's class and user-selected parameters.
 
 ## Features
 
