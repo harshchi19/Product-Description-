@@ -18,8 +18,7 @@ Welcome to the Image and Text Processing App! This application allows you to upl
 
 1. Clone the repository:
    ```bash
-   git clone https://github/harshchi19.git
-   cd app
+   git clone https://github.com/harshchi19/Product-Description-.git
    ```
 
 2. Create a virtual environment (optional but recommended):
