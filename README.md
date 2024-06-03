@@ -18,8 +18,8 @@ Welcome to the Image and Text Processing App! This application allows you to upl
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/image-text-processing-app.git
-   cd image-text-processing-app
+   git clone https://github/harshchi19.git
+   cd app
    ```
 
 2. Create a virtual environment (optional but recommended):
